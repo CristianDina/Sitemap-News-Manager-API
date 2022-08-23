@@ -9,7 +9,7 @@ cd ..
 export DB_HOST=`~/.local/bin/aws rds --region eu-west-3 describe-db-instances --query "DBInstances[0].Endpoint.Address" | tr -d '"'`
 ~/./../jenkins_home/.sdkman/candidates/maven/current/bin/mvn clean install
 
-docker build -t sitemap-news-manager-ecr --build-arg db_host=`~/.local/bin/aws rds --region eu-west-3 describe-db-instances --query "DBInstances[0].Endpoint.Address" | tr -d '"'`
+docker build . -t sitemap-news-manager-ecr --build-arg db_host=`~/.local/bin/aws rds --region eu-west-3 describe-db-instances --query "DBInstances[0].Endpoint.Address" | tr -d '"'`
 docker tag sitemap-news-manager-ecr:latest 803534243049.dkr.ecr.eu-west-3.amazonaws.com/sitemap-news-manager-ecr:latest
 docker push 803534243049.dkr.ecr.eu-west-3.amazonaws.com/sitemap-news-manager-ecr:latest
 
