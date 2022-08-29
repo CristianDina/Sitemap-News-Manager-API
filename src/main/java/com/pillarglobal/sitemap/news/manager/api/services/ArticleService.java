@@ -8,8 +8,8 @@ import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.pillarglobal.sitemap.news.manager.api.clients.SitemapNewsClient;
 import com.pillarglobal.sitemap.news.manager.api.exceptions.ArticleNotFoundException;
-import com.pillarglobal.sitemap.news.manager.api.models.Article;
-import com.pillarglobal.sitemap.news.manager.api.repositories.ArticleRepository;
+//import com.pillarglobal.sitemap.news.manager.api.models.Article;
+import com.pillarglobal.sitemap.news.manager.api.repositories.UrlRepository;
 import com.pillarglobal.sitemap.news.manager.api.xmlmodels.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,41 +22,41 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleService {
 
-    ArticleRepository articleRepository;
+    UrlRepository urlRepository;
 
     SitemapNewsClient sitemapNewsClient;
 
     @Autowired
-    public ArticleService(ArticleRepository articleRepository, SitemapNewsClient sitemapNewsClient){
-        this.articleRepository = articleRepository;
+    public ArticleService(UrlRepository urlRepository, SitemapNewsClient sitemapNewsClient){
+        this.urlRepository = urlRepository;
         this.sitemapNewsClient = sitemapNewsClient;
     }
-    public Article getArticle(String loc) {
-        Optional<Article> byId = articleRepository.findById(loc);
+    public Url getArticle(String loc) {
+        Optional<Url> byId = urlRepository.findById(loc);
         if (byId.isPresent()){
             return byId.get();
         }
         else throw new ArticleNotFoundException("Article with url: " + loc + " was not found.");
     }
 
-    public List<Article> getAllArticles() {
-        return articleRepository.findAll();
+    public List<Url> getAllArticles() {
+        return urlRepository.findAll();
     }
 
-    public void addArticle(Article article) {
-        articleRepository.save(article);
+    public void addArticle(Url article) {
+        urlRepository.save(article);
     }
 
-    public void updateArticle(Article article) {
-        if(articleRepository.existsById(article.getLoc())){
-            articleRepository.save(article);
+    public void updateArticle(Url article) {
+        if(urlRepository.existsById(article.getLoc())){
+            urlRepository.save(article);
         }
         else throw new ArticleNotFoundException("Article with url: " + article.getLoc() + " was not found.");
     }
 
     public void deleteArticle(String loc) {
-        if (articleRepository.existsById(loc))
-            articleRepository.deleteById(loc);
+        if (urlRepository.existsById(loc))
+            urlRepository.deleteById(loc);
         else throw new ArticleNotFoundException("Article with url: " + loc + " was not found.");
     }
 

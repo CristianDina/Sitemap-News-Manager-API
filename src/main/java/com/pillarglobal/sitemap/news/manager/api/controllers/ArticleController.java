@@ -1,6 +1,6 @@
 package com.pillarglobal.sitemap.news.manager.api.controllers;
 
-import com.pillarglobal.sitemap.news.manager.api.models.Article;
+//import com.pillarglobal.sitemap.news.manager.api.models.Article;
 import com.pillarglobal.sitemap.news.manager.api.services.ArticleService;
 import com.pillarglobal.sitemap.news.manager.api.xmlmodels.Url;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +17,25 @@ public class ArticleController {
     ArticleService articleService;
 
     @GetMapping("/getArticle")
-    public ResponseEntity<Article> getArticle(@RequestParam String loc){
-        Article article = articleService.getArticle(loc);
+    public ResponseEntity<Url> getArticle(@RequestParam String loc){
+        Url article = articleService.getArticle(loc);
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
     @GetMapping("/getAllArticles")
-    public ResponseEntity<List<Article>> getAllArticles(){
-        List<Article> allArticles = articleService.getAllArticles();
+    public ResponseEntity<List<Url>> getAllArticles(){
+        List<Url> allArticles = articleService.getAllArticles();
         return new ResponseEntity<>(allArticles,HttpStatus.OK);
     }
 
     @PostMapping("/addArticle")
-    public ResponseEntity<String> addArticle(@RequestBody Article article){
+    public ResponseEntity<String> addArticle(@RequestBody Url article){
         articleService.addArticle(article);
         return new ResponseEntity<>("Article with url: " + article.toString() + " was added.", HttpStatus.OK);
     }
 
     @PutMapping("/updateArticle")
-    public ResponseEntity<String> updateArticle(@RequestBody Article article){
+    public ResponseEntity<String> updateArticle(@RequestBody Url article){
         articleService.updateArticle(article);
         return new ResponseEntity<>("Article with url: " + article.toString() + " was updated.", HttpStatus.OK);
     }

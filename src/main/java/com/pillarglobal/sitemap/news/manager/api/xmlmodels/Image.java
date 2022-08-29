@@ -1,6 +1,5 @@
 //package com.pillarglobal.sitemap.news.manager.api.xmlmodels;
 //
-//
 //import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 //import lombok.AllArgsConstructor;
 //import lombok.Data;
@@ -14,11 +13,11 @@
 //@Data
 //@NoArgsConstructor
 //@Entity
-//@Table(name = "publication", schema = "news")
-//public class Publication {
+//@Table(name = "image", schema = "news")
+//public class Image {
 //    @Id
-//    @JacksonXmlProperty(isAttribute = false, localName = "news:name")
-//    private String name;
-//    @JacksonXmlProperty(isAttribute = false, localName = "news:language")
-//    private String language;
+//    @JacksonXmlProperty(isAttribute = false, localName = "image:loc")
+//    private String loc;
+//    @JacksonXmlProperty(isAttribute = false, localName = "image:caption")
+//    private String caption;
 //}
