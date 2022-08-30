@@ -1,8 +1,8 @@
 package com.pillarglobal.sitemap.news.manager.api.controllers;
 
 //import com.pillarglobal.sitemap.news.manager.api.models.Article;
+import com.pillarglobal.sitemap.news.manager.api.models.Url;
 import com.pillarglobal.sitemap.news.manager.api.services.ArticleService;
-import com.pillarglobal.sitemap.news.manager.api.xmlmodels.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

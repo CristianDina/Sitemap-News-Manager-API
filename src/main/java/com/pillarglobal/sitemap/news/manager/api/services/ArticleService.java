@@ -10,11 +10,12 @@ import com.pillarglobal.sitemap.news.manager.api.clients.SitemapNewsClient;
 import com.pillarglobal.sitemap.news.manager.api.exceptions.ArticleNotFoundException;
 //import com.pillarglobal.sitemap.news.manager.api.models.Article;
 import com.pillarglobal.sitemap.news.manager.api.repositories.UrlRepository;
-import com.pillarglobal.sitemap.news.manager.api.xmlmodels.Url;
+import com.pillarglobal.sitemap.news.manager.api.models.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.stream.XMLInputFactory;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,6 +69,8 @@ public class ArticleService {
         try {
             List<Url> value = xmlMapper.readValue(stringResponse, new TypeReference<List<Url>>() {});
             value = value.stream().filter(url -> url.getLoc() != null).collect(Collectors.toList());
+            List<Url> value2 = Arrays.asList(value.get(0), value.get(1));
+            urlRepository.saveAll(value2);
             return value;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

@@ -1,4 +1,4 @@
-package com.pillarglobal.sitemap.news.manager.api.xmlmodels;
+package com.pillarglobal.sitemap.news.manager.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,11 +25,13 @@ public class Url {
     private String lastmod;
     private String changefreq;
     private String priority;
-//    @JacksonXmlProperty(isAttribute = false, localName = "news:news")
-//    @OneToOne
-//    private News news;
-//    @JacksonXmlProperty(isAttribute = false, localName = "image:image")
-//    @JacksonXmlElementWrapper(useWrapping = false)
-//    @OneToMany
-//    private List<Image> images;
+    @JacksonXmlProperty(isAttribute = false, localName = "news:news")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "news_title", referencedColumnName = "title")
+    private News news;
+    @JacksonXmlProperty(isAttribute = false, localName = "image:image")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "url_loc", referencedColumnName = "loc")
+    private List<Image> images;
 }
