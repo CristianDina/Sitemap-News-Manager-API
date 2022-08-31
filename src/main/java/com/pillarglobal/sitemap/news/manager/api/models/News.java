@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class News {
     @JacksonXmlProperty(isAttribute = false, localName = "news:publication")
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "publication_name", referencedColumnName = "name")
+    @JoinColumn(name = "publication_id", referencedColumnName = "id")
     private Publication publication;
     @JacksonXmlProperty(isAttribute = false, localName = "news:publication_date")
     private String publicationDate;

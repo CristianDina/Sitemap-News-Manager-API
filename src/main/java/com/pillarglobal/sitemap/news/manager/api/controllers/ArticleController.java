@@ -22,12 +22,6 @@ public class ArticleController {
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllArticles")
-    public ResponseEntity<List<Url>> getAllArticles(){
-        List<Url> allArticles = articleService.getAllArticles();
-        return new ResponseEntity<>(allArticles,HttpStatus.OK);
-    }
-
     @PostMapping("/addArticle")
     public ResponseEntity<String> addArticle(@RequestBody Url article){
         articleService.addArticle(article);
@@ -49,5 +43,16 @@ public class ArticleController {
     @GetMapping("/getSitemapNews")
     public List<Url> getSitemapNews(){
         return articleService.getSitemapNews();
+    }
+
+    @PostMapping("/triggerSitemapNewsMapping")
+    public ResponseEntity<String> triggerSitemapNewsMapping(){
+        Thread thread = new Thread(){
+            public synchronized void run(){
+                articleService.startSitemapNewsMapping();
+            }
+        };
+        thread.start();
+        return new ResponseEntity<>("Sitemap news mapping has been started.", HttpStatus.OK);
     }
 }
