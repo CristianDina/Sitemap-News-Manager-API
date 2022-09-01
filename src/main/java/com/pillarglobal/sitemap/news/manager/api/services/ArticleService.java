@@ -18,6 +18,7 @@ import com.pillarglobal.sitemap.news.manager.api.repositories.UrlRepository;
 import com.pillarglobal.sitemap.news.manager.api.models.Url;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.xml.stream.XMLInputFactory;
@@ -78,12 +79,12 @@ public class ArticleService {
             News news = url.getNews();
             String newsTitle = news.getTitle();
             Publication publication = news.getPublication();
-            Long id = publication.getId();
-            publicationRepository.deleteById(id);
+            Long publicationId = publication.getId();
+            publicationRepository.deleteById(publicationId);
             newsRepository.deleteById(newsTitle);
             List<Image> images = url.getImages();
             for (Image image : images)
-                imageRepository.deleteById(image.getLoc());
+                imageRepository.deleteById(image.getId());
             urlRepository.deleteById(loc);
         }
         else throw new ArticleNotFoundException("Article with url: " + loc + " was not found.");
@@ -103,6 +104,7 @@ public class ArticleService {
         }
     }
 
+    @Scheduled(fixedDelay = 300000)
     public void startSitemapNewsMapping() {
         if (!isMappingRunning) {
             isMappingRunning = Boolean.TRUE;
@@ -118,7 +120,7 @@ public class ArticleService {
                 urlRepository.saveAll(articles);
                 log.info("Sitemap news article mapping has ended.");
                 isMappingRunning = Boolean.FALSE;
-            } catch (JsonProcessingException e) {
+            } catch (Throwable e) {
                 log.error("Sitemap news article mapping has failed.");
                 isMappingRunning = Boolean.FALSE;
                 throw new RuntimeException(e);
