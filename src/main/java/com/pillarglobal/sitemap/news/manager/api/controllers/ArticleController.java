@@ -1,6 +1,5 @@
 package com.pillarglobal.sitemap.news.manager.api.controllers;
 
-//import com.pillarglobal.sitemap.news.manager.api.models.Article;
 import com.pillarglobal.sitemap.news.manager.api.models.Url;
 import com.pillarglobal.sitemap.news.manager.api.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
