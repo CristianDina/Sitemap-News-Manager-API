@@ -41,7 +41,15 @@ public class ArticleService {
 
     PublicationRepository publicationRepository;
 
-    private static Boolean isMappingRunning = Boolean.FALSE;
+    public Boolean getMappingRunning() {
+        return isMappingRunning;
+    }
+
+    public void setMappingRunning(Boolean mappingRunning) {
+        isMappingRunning = mappingRunning;
+    }
+
+    private Boolean isMappingRunning = Boolean.FALSE;
 
     @Autowired
     public ArticleService(UrlRepository urlRepository, SitemapNewsClient sitemapNewsClient, ImageRepository imageRepository, NewsRepository newsRepository, PublicationRepository publicationRepository){
@@ -66,7 +74,6 @@ public class ArticleService {
 
     public void updateArticle(Url article) {
         if(urlRepository.existsById(article.getLoc())){
-            deleteArticle(article.getLoc());
             urlRepository.save(article);
         }
         else throw new ArticleNotFoundException("Article with url: " + article.getLoc() + " was not found.");
@@ -77,11 +84,8 @@ public class ArticleService {
         if (byId.isPresent()) {
             Url url = byId.get();
             News news = url.getNews();
-            String newsTitle = news.getTitle();
-            Publication publication = news.getPublication();
-            Long publicationId = publication.getId();
-            publicationRepository.deleteById(publicationId);
-            newsRepository.deleteById(newsTitle);
+            publicationRepository.deleteById(news.getPublication().getId());
+            newsRepository.deleteById(news.getTitle());
             List<Image> images = url.getImages();
             for (Image image : images)
                 imageRepository.deleteById(image.getId());
@@ -114,8 +118,7 @@ public class ArticleService {
             input.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
             XmlMapper xmlMapper = new XmlMapper(new XmlFactory(input, new WstxOutputFactory()));
             try {
-                List<Url> articles = xmlMapper.readValue(stringResponse, new TypeReference<List<Url>>() {
-                });
+                List<Url> articles = xmlMapper.readValue(stringResponse, new TypeReference<List<Url>>() {});
                 articles = articles.stream().filter(url -> url.getLoc() != null).collect(Collectors.toList());
                 urlRepository.saveAll(articles);
                 log.info("Sitemap news article mapping has ended.");
