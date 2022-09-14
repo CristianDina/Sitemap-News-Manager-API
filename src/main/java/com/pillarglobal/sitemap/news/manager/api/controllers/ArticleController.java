@@ -23,7 +23,7 @@ public class ArticleController {
 
     @GetMapping("/getString")
     public String getString(){
-        return "Hello World!";
+        return "Hello World  !";
     }
 
     @PostMapping("/addArticle")
