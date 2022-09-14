@@ -21,6 +21,11 @@ public class ArticleController {
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
 
+    @GetMapping("/getString")
+    public String getString(){
+        return "Hello World";
+    }
+
     @PostMapping("/addArticle")
     public ResponseEntity<String> addArticle(@RequestBody Url article){
         articleService.addArticle(article);
