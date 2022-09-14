@@ -109,10 +109,5 @@ public class ArticleControllerTest {
         mockMvc.perform(get("/getSitemapNews")).andExpect(content().string(containsString("[{\"loc\":\"string\",\"lastmod\":\"string\",\"changefreq\":\"string\",\"priority\":\"string\",\"news\":{\"publication\":{\"name\":\"string\",\"language\":\"string\"},\"publicationDate\":\"string\",\"title\":\"string\",\"keywords\":\"string\"},\"images\":[{\"loc\":\"string\",\"caption\":\"string\"},{\"loc\":\"string\",\"caption\":\"string\"}]}]")));
     }
 
-    @Test
-    public void testTriggerSitemapNewsMappingEndpoint() throws Exception{
-        mockMvc.perform(post("/triggerSitemapNewsMapping")).andExpect(content().string(containsString("Sitemap news mapping has been started."))).andExpect(status().isOk());
-        verify(articleService, times(1)).startSitemapNewsMapping();
-    }
 
 }
